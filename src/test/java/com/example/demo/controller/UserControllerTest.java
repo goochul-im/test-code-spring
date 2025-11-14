@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.UserStatus;
-import com.example.demo.model.dto.UserUpdateDto;
-import com.example.demo.repository.UserEntity;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.domain.UserUpdate;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.infrastructure.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -109,7 +108,7 @@ class UserControllerTest {
     @Test
     void 사용자는_내_정보를_수정할_수_있다() throws Exception {
         //given
-        UserUpdateDto userUpdateDto = UserUpdateDto.builder()
+        UserUpdate userUpdate = UserUpdate.builder()
                 .nickname("kok2-2")
                 .address("Daegu")
                 .build();
@@ -119,7 +118,7 @@ class UserControllerTest {
         mockMvc.perform(put("/api/users/me")
                         .header("EMAIL","kok2@gmail.com")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userUpdateDto)))
+                        .content(objectMapper.writeValueAsString(userUpdate)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.email").value("kok2@gmail.com"))

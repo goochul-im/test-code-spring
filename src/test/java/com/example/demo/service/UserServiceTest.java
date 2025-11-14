@@ -1,12 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.exception.CertificationCodeNotMatchedException;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.UserStatus;
-import com.example.demo.model.dto.UserCreateDto;
-import com.example.demo.model.dto.UserUpdateDto;
-import com.example.demo.repository.UserEntity;
-import org.assertj.core.api.Assertions;
+import com.example.demo.user.exception.CertificationCodeNotMatchedException;
+import com.example.demo.user.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.UserStatus;
+import com.example.demo.user.domain.UserCreate;
+import com.example.demo.user.domain.UserUpdate;
+import com.example.demo.user.infrastructure.UserEntity;
+import com.example.demo.user.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
@@ -74,7 +71,7 @@ class UserServiceTest {
     @Test
     void UserCreateDto를_이용해_유저를_생성할_수_있다() {
         //given
-        UserCreateDto dto = UserCreateDto.builder()
+        UserCreate dto = UserCreate.builder()
                 .email("kok4@gmail.com")
                 .address("Daegu")
                 .nickname("kok2-2")
@@ -92,7 +89,7 @@ class UserServiceTest {
     @Test
     void UserUpdateDto를_이용해_유저를_생성할_수_있다() {
         //given
-        UserUpdateDto dto = UserUpdateDto.builder()
+        UserUpdate dto = UserUpdate.builder()
                 .address("Daegu")
                 .nickname("kok45")
                 .build();

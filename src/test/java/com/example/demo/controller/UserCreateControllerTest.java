@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.dto.UserCreateDto;
-import com.example.demo.model.dto.UserUpdateDto;
+import com.example.demo.user.domain.UserCreate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -13,11 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -39,7 +36,7 @@ class UserCreateControllerTest {
     @Test
     void 사용자는_내_정보를_수정할_수_있다() throws Exception {
         //given
-        UserCreateDto userCreateDto = UserCreateDto.builder()
+        UserCreate userCreate = UserCreate.builder()
                 .email("kok303@gmail.com")
                 .nickname("kok303")
                 .address("Daegu")
@@ -52,7 +49,7 @@ class UserCreateControllerTest {
         mockMvc.perform(post("/api/users")
                         .header("EMAIL","kok2@gmail.com")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userCreateDto)))
+                        .content(objectMapper.writeValueAsString(userCreate)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.email").value("kok303@gmail.com"))
