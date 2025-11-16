@@ -34,7 +34,7 @@ class UserCreateControllerTest {
     private JavaMailSender mailSender;
 
     @Test
-    void 사용자는_내_정보를_수정할_수_있다() throws Exception {
+    void UserCreate를_통해_사용자를_생성할_수_있다() throws Exception {
         //given
         UserCreate userCreate = UserCreate.builder()
                 .email("kok303@gmail.com")

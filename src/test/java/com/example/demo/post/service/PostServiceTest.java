@@ -1,5 +1,6 @@
 package com.example.demo.post.service;
 
+import com.example.demo.post.domain.Post;
 import com.example.demo.user.exception.ResourceNotFoundException;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.post.domain.PostCreate;
@@ -33,7 +34,7 @@ class PostServiceTest {
     void getPostById는_존재하는_게시물을_내려준다() {
         // given
         // when
-        PostEntity result = postService.getPostById(1);
+        Post result = postService.getPostById(1);
 
         // then
         assertThat(result.getContent()).isEqualTo("helloworld");
@@ -61,10 +62,10 @@ class PostServiceTest {
         writer.setAddress("Seoul");
         writer.setStatus(UserStatus.ACTIVE);
         writer.setCertificationCode("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-        BDDMockito.when(userService.getById(1)).thenReturn(writer);
+        BDDMockito.when(userService.getById(1)).thenReturn(writer.toModel());
 
         // when
-        PostEntity result = postService.create(postCreate);
+        Post result = postService.create(postCreate);
 
         // then
         assertThat(result.getId()).isNotNull();
@@ -85,9 +86,9 @@ class PostServiceTest {
         postService.update(1, postUpdate);
 
         // then
-        PostEntity postEntity = postService.getPostById(1);
-        assertThat(postEntity.getContent()).isEqualTo("hello world!!");
-        assertThat(postEntity.getModifiedAt()).isNotNull();
+        Post post = postService.getPostById(1);
+        assertThat(post.getContent()).isEqualTo("hello world!!");
+        assertThat(post.getModifiedAt()).isNotNull();
     }
 
 }

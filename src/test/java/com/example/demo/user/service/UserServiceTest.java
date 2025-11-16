@@ -1,5 +1,6 @@
 package com.example.demo.user.service;
 
+import com.example.demo.user.domain.User;
 import com.example.demo.user.exception.CertificationCodeNotMatchedException;
 import com.example.demo.user.exception.ResourceNotFoundException;
 import com.example.demo.user.domain.UserStatus;
@@ -37,7 +38,7 @@ class UserServiceTest {
         String mail = "kok2@gmail.com";
 
         //when
-        UserEntity result = userService.getByEmail(mail);
+        User result = userService.getByEmail(mail);
 
         //then
         assertThat(result.getNickname()).isEqualTo("kok2");
@@ -56,7 +57,7 @@ class UserServiceTest {
     void getById는_ACTIVE_상태인_유저를_찾아올_수_있다() {
         //given
         //when
-        UserEntity result = userService.getById(1);
+        User result = userService.getById(1);
 
         //then
         assertThat(result.getNickname()).isEqualTo("kok2");
@@ -79,7 +80,7 @@ class UserServiceTest {
         BDDMockito.doNothing().when(mailSender).send(any(SimpleMailMessage.class));
 
         //when
-        UserEntity result = userService.create(dto);
+        User result = userService.create(dto);
 
         //then
         assertThat(result.getId()).isNotNull();
@@ -87,7 +88,7 @@ class UserServiceTest {
     }
 
     @Test
-    void UserUpdateDto를_이용해_유저를_생성할_수_있다() {
+    void UserUpdateDto를_이용해_유저를_수정할_수_있다() {
         //given
         UserUpdate dto = UserUpdate.builder()
                 .address("Daegu")
@@ -100,7 +101,7 @@ class UserServiceTest {
 
         //then
 
-        UserEntity result = userService.getById(1);
+        User result = userService.getById(1);
         assertThat(result.getId()).isNotNull();
         assertThat(result.getStatus()).isEqualTo(UserStatus.ACTIVE);
         assertThat(result.getNickname()).isEqualTo("kok45");
@@ -115,7 +116,7 @@ class UserServiceTest {
 
         //then
 
-        UserEntity result = userService.getById(1);
+        User result = userService.getById(1);
         assertThat(result.getLastLoginAt()).isGreaterThan(1); //FIX
     }
 
@@ -127,7 +128,7 @@ class UserServiceTest {
 
         //then
 
-        UserEntity result = userService.getById(2);
+        User result = userService.getById(2);
         assertThat(result.getStatus()).isEqualTo(UserStatus.ACTIVE);
     }
 
