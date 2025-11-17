@@ -1,11 +1,10 @@
-package com.example.demo.post.service;
+package com.example.demo.medium;
 
 import com.example.demo.post.domain.Post;
 import com.example.demo.user.exception.ResourceNotFoundException;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.post.domain.PostCreate;
 import com.example.demo.post.domain.PostUpdate;
-import com.example.demo.post.infrastructure.PostEntity;
 import com.example.demo.user.infrastructure.UserEntity;
 import com.example.demo.post.service.PostService;
 import com.example.demo.user.service.UserService;
