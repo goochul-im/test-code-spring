@@ -35,7 +35,7 @@ public class FakePostRepository implements PostRepository {
         } else {
             data.removeIf(u -> u.getId().equals(post.getId()));
             data.add(post);
-            return null;
+            return post;
         }
     }
 }

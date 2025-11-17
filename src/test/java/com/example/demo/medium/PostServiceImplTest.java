@@ -1,16 +1,13 @@
-package com.example.demo.post.service;
+package com.example.demo.medium;
 
-import com.example.demo.mock.*;
 import com.example.demo.post.domain.Post;
+import com.example.demo.user.controller.port.UserReadService;
+import com.example.demo.user.exception.ResourceNotFoundException;
+import com.example.demo.user.domain.UserStatus;
 import com.example.demo.post.domain.PostCreate;
 import com.example.demo.post.domain.PostUpdate;
-import com.example.demo.user.domain.User;
-import com.example.demo.user.domain.UserStatus;
-import com.example.demo.user.exception.ResourceNotFoundException;
 import com.example.demo.user.infrastructure.UserEntity;
-import com.example.demo.user.service.CertificationService;
-import com.example.demo.user.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
+import com.example.demo.post.service.PostServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,38 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class PostServiceTest {
+@SpringBootTest
+@Sql("/sql/post-service-test-data.sql")
+@Transactional
+class PostServiceImplTest {
 
-    private PostService postService;
-
-    @BeforeEach
-    void init() {
-        FakePostRepository fakePostRepository = new FakePostRepository();
-        FakeUserRepository userRepository = new FakeUserRepository();
-
-        this.postService = PostService.builder()
-                .clockHolder(new TestClockHolder(307L))
-                .userRepository(userRepository)
-                .postRepository(fakePostRepository)
-                .build();
-
-        User writer = userRepository.save(User.builder()
-                .id(1L)
-                .email("kok2@gmail.com")
-                .nickname("kok2")
-                .address("Seoul")
-                .status(UserStatus.ACTIVE)
-                .certificationCode("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                .lastLoginAt(0L)
-                .build());
-
-        fakePostRepository.save(Post.builder()
-                .id(1L)
-                .content("helloworld")
-                .createdAt(307L)
-                .writer(writer)
-                .build());
-    }
+    @Autowired
+    private PostServiceImpl postService;
+    @MockBean
+    private UserReadService userReadService;
 
     @Test
     void getPostById는_존재하는_게시물을_내려준다() {
@@ -87,6 +61,7 @@ class PostServiceTest {
         writer.setAddress("Seoul");
         writer.setStatus(UserStatus.ACTIVE);
         writer.setCertificationCode("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+        BDDMockito.when(userReadService.getById(1)).thenReturn(writer.toModel());
 
         // when
         Post result = postService.create(postCreate);
@@ -94,7 +69,7 @@ class PostServiceTest {
         // then
         assertThat(result.getId()).isNotNull();
         assertThat(result.getContent()).isEqualTo("foobar");
-        assertThat(result.getCreatedAt()).isEqualTo(307L);
+        assertThat(result.getCreatedAt()).isGreaterThan(0);
         assertThat(result.getWriter().getId()).isEqualTo(1);
     }
 
@@ -112,7 +87,7 @@ class PostServiceTest {
         // then
         Post post = postService.getPostById(1);
         assertThat(post.getContent()).isEqualTo("hello world!!");
-        assertThat(post.getModifiedAt()).isEqualTo(307L);
+        assertThat(post.getModifiedAt()).isNotNull();
     }
 
 }

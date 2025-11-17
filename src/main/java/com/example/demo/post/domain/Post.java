@@ -2,11 +2,9 @@ package com.example.demo.post.domain;
 
 import com.example.demo.common.service.port.ClockHolder;
 import com.example.demo.user.domain.User;
-import com.example.demo.user.infrastructure.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.Clock;
 
 @Getter
 public class Post {
