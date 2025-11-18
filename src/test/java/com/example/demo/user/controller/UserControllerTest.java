@@ -34,7 +34,7 @@ class UserControllerTest {
                 .build());
 
         //when
-        ResponseEntity<UserResponse> result = testContainer.userController.getUserById(1L);
+        ResponseEntity<UserResponse> result = testContainer.userController.getById(1L);
 
         //then
         assertThat(result.getStatusCodeValue()).isEqualTo(200);
@@ -56,7 +56,7 @@ class UserControllerTest {
         UserController userController = testContainer.userController;
 
         //when & then
-        assertThatThrownBy(() -> userController.getUserById(1L))
+        assertThatThrownBy(() -> userController.getById(1L))
                 .isInstanceOf(ResourceNotFoundException.class);
 
     }

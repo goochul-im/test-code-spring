@@ -4,27 +4,17 @@ import com.example.demo.mock.TestClockHolder;
 import com.example.demo.mock.TestContainer;
 import com.example.demo.mock.TestUuidHolder;
 import com.example.demo.post.controller.response.PostResponse;
-import com.example.demo.post.domain.Post;
 import com.example.demo.post.domain.PostCreate;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class PostCreateControllerTest {
 
@@ -49,7 +39,7 @@ class PostCreateControllerTest {
                 .certificationCode("aaaaaaaaaaa-aaaaaaaaaa-aaaaaaaaa-aaaaaaaaaaa").build());
 
         //when
-        ResponseEntity<PostResponse> result = testContainer.postCreateController.createPost(postCreate);
+        ResponseEntity<PostResponse> result = testContainer.postCreateController.create(postCreate);
 
         //then
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.CREATED);

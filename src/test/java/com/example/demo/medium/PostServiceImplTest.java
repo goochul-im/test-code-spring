@@ -1,7 +1,7 @@
 package com.example.demo.medium;
 
 import com.example.demo.post.domain.Post;
-import com.example.demo.user.controller.port.UserReadService;
+import com.example.demo.user.controller.port.UserService;
 import com.example.demo.user.exception.ResourceNotFoundException;
 import com.example.demo.user.domain.UserStatus;
 import com.example.demo.post.domain.PostCreate;
@@ -27,7 +27,7 @@ class PostServiceImplTest {
     @Autowired
     private PostServiceImpl postService;
     @MockBean
-    private UserReadService userReadService;
+    private UserService userService;
 
     @Test
     void getPostById는_존재하는_게시물을_내려준다() {
@@ -61,7 +61,7 @@ class PostServiceImplTest {
         writer.setAddress("Seoul");
         writer.setStatus(UserStatus.ACTIVE);
         writer.setCertificationCode("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-        BDDMockito.when(userReadService.getById(1)).thenReturn(writer.toModel());
+        BDDMockito.when(userService.getById(1)).thenReturn(writer.toModel());
 
         // when
         Post result = postService.create(postCreate);
